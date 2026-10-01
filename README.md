@@ -70,13 +70,17 @@ The `.pbix` contains 9 pages:
 |---|---|---|
 | ![History & Activity](screenshots/history-activity.png) | ![Live Stock](screenshots/live-stock.png) | ![Advanced Reports](screenshots/advanced-reports.png) |
 
-| Detailed History | AI Prediction |
-|---|---|
-| ![Detailed History](screenshots/detailed-history.png) | ![AI Prediction](screenshots/ai-prediction.png) |
+| Detailed History | AI Prediction | AI Prediction (Locked) |
+|---|---|---|
+| ![Detailed History](screenshots/detailed-history.png) | ![AI Prediction](screenshots/ai-prediction.png) | ![AI Prediction Locked](screenshots/ai-prediction-locked.png) |
 
-*(Add the PNG files under `screenshots/` with these exact names, or
-update the paths above to match whatever you name them — see "Adding
-dashboard screenshots" below for the exact steps.)*
+> **Note on plan gating**: in the screenshots above (captured with a
+> **GOLD**-plan admin account), **Live Stock** and **Advanced
+> Reports** show as 🔒 **Platinum Required** on the main dashboard —
+> so those two pages, not just AI Prediction, are Platinum-only. The
+> exact plan → page-access mapping for FREE vs GOLD wasn't
+> independently verified here; the screenshots above show what a
+> GOLD account sees.
 
 ## Data model
 
@@ -143,37 +147,17 @@ the **Platinum-only AI Prediction** gating here matches the
 Free/Gold/Platinum subscription logic already enforced in the app's
 `SubscriptionManager`.
 
-## Adding dashboard screenshots
+## Adding the dashboard screenshots to this repo
 
-The `.pbix` file itself doesn't render on GitHub, so screenshots are
-what let people preview the dashboard without opening Power BI.
-Steps:
+The `.pbix` file itself doesn't render on GitHub, so the PNGs in the
+**Screenshots** section above are what let people preview the
+dashboard without opening Power BI. Nine PNGs (one per report page,
+extracted cleanly from a full-page export) are provided alongside
+this README — place them in the repo like this:
 
-1. **Open the report and go full-page.** In Power BI Desktop, open
-   `WareVista_Analytics.pbix`. For each of the 9 pages (tabs along
-   the bottom), select it and, if you want to hide the page-navigation
-   pane / filter icons while capturing, use **View → Reading View**
-   (or just capture as-is — most dashboard screenshots keep the
-   slicers visible since they're part of the design here).
-
-2. **Export each page as an image**, either way works:
-   - **In-app export**: **File → Export report → Export to PDF**
-     (exports every page at once as one PDF, one page each), then
-     convert each PDF page to a PNG — e.g. with
-     [ImageMagick](https://imagemagick.org/):
-     ```bash
-     magick -density 200 WareVista_Analytics.pdf screenshots/page-%d.png
-     ```
-     then rename `page-0.png` → `main-dashboard.png`,
-     `page-1.png` → `purchase-analytics.png`, etc. (page order
-     matches the order in "Report pages" above).
-   - **Manual screenshot**: use your OS's snipping tool
-     (Win+Shift+S on Windows, Cmd+Shift+4 on Mac) to capture just the
-     report canvas for each page, and save directly with the target
-     filename.
-
-3. **Create a `screenshots/` folder** at the repository root and put
-   the PNGs there:
+1. **Create a `screenshots/` folder** at the repository root and add
+   the nine PNGs with these exact names (matching the image paths
+   already used in the Screenshots section above):
    ```
    WareVista_Analysis_Dashboard/
    ├── WareVista_Analytics.pbix
@@ -186,28 +170,46 @@ Steps:
        ├── live-stock.png
        ├── advanced-reports.png
        ├── detailed-history.png
-       └── ai-prediction.png
+       ├── ai-prediction.png
+       └── ai-prediction-locked.png
    ```
-   (Skip `ai-prediction-locked.png` unless you specifically want to
-   show the upgrade-prompt state too — add a row for it in the table
-   above if so.)
 
-4. **Commit and push:**
+2. **Commit and push:**
    ```bash
    git add screenshots/
    git commit -m "Add dashboard screenshots"
    git push
    ```
    Once pushed, the image table in the **Screenshots** section above
-   will render automatically on the GitHub repo page — no further
-   README changes needed if you used the exact filenames listed.
+   renders automatically on the GitHub repo page — no further README
+   changes needed.
 
-5. **If you used different filenames or added/removed pages**, just
-   edit the `![...](screenshots/...)` paths in the Screenshots section
-   to match.
+### Updating screenshots later (new data, new pages, etc.)
+
+1. In Power BI Desktop, open `WareVista_Analytics.pbix` and use
+   **File → Export report → Export to PDF** to export all pages at
+   once as a single PDF (one page each, in the same left-to-right
+   page-tab order as "Report pages" above).
+2. Convert each PDF page to a PNG — e.g. with
+   [poppler's `pdftoppm`](https://poppler.freedesktop.org/) (what was
+   used to generate the current screenshots, since it rasterizes the
+   full page cleanly, vector charts included) or
+   [ImageMagick](https://imagemagick.org/):
+   ```bash
+   pdftoppm -png -r 150 WareVista_Analytics.pdf screenshots/page
+   # or: magick -density 150 WareVista_Analytics.pdf screenshots/page-%d.png
+   ```
+3. Rename each `page-N.png` to match the table in the **Screenshots**
+   section (page 1 → `main-dashboard.png`, page 2 →
+   `purchase-analytics.png`, etc.), overwriting the old files.
+4. Commit and push as in step 2 above.
+
+If you add/remove/reorder report pages, update the
+`![...](screenshots/...)` entries in the Screenshots section to match.
 
 Tip: keep each PNG under ~1–2 MB (resize/compress if needed) so the
-README loads quickly on GitHub.
+README loads quickly on GitHub — the provided set is already well
+under that at 50–320 KB each.
 
 ## License
 
