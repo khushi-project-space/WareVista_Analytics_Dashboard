@@ -64,15 +64,15 @@ The `.pbix` contains 9 pages:
 
 | Main Dashboard | Purchase Analytics | Sales Analytics |
 |---|---|---|
-| ![Main Dashboard](screenshots/main-dashboard.png) | ![Purchase Analytics](screenshots/purchase-analytics.png) | ![Sales Analytics](screenshots/sales-analytics.png) |
+| ![Main Dashboard](main-dashboard.png) | ![Purchase Analytics](purchase-analytics.png) | ![Sales Analytics](sales-analytics.png) |
 
 | History & Activity | Live Stock | Advanced Reports |
 |---|---|---|
-| ![History & Activity](screenshots/history-activity.png) | ![Live Stock](screenshots/live-stock.png) | ![Advanced Reports](screenshots/advanced-reports.png) |
+| ![History & Activity](history-activity.png) | ![Live Stock](live-stock.png) | ![Advanced Reports](advanced-reports.png) |
 
 | Detailed History | AI Prediction | AI Prediction (Locked) |
 |---|---|---|
-| ![Detailed History](screenshots/detailed-history.png) | ![AI Prediction](screenshots/ai-prediction.png) | ![AI Prediction Locked](screenshots/ai-prediction-locked.png) |
+| ![Detailed History](detailed-history.png) | ![AI Prediction](ai-prediction.png) | ![AI Prediction Locked](ai-prediction-locked.png) |
 
 > **Note on plan gating**: in the screenshots above (captured with a
 > **GOLD**-plan admin account), **Live Stock** and **Advanced
@@ -147,42 +147,33 @@ the **Platinum-only AI Prediction** gating here matches the
 Free/Gold/Platinum subscription logic already enforced in the app's
 `SubscriptionManager`.
 
-## Adding the dashboard screenshots to this repo
+## Dashboard screenshots — file layout
 
-The `.pbix` file itself doesn't render on GitHub, so the PNGs in the
-**Screenshots** section above are what let people preview the
-dashboard without opening Power BI. Nine PNGs (one per report page,
-extracted cleanly from a full-page export) are provided alongside
-this README — place them in the repo like this:
+The `.pbix` file itself doesn't render on GitHub, so the 9 PNGs
+referenced in the **Screenshots** section above are what let people
+preview the dashboard without opening Power BI. They live at the
+**repository root** (same level as `README.md` and the `.pbix` file),
+not in a subfolder:
 
-1. **Create a `screenshots/` folder** at the repository root and add
-   the nine PNGs with these exact names (matching the image paths
-   already used in the Screenshots section above):
-   ```
-   WareVista_Analysis_Dashboard/
-   ├── WareVista_Analytics.pbix
-   ├── README.md
-   └── screenshots/
-       ├── main-dashboard.png
-       ├── purchase-analytics.png
-       ├── sales-analytics.png
-       ├── history-activity.png
-       ├── live-stock.png
-       ├── advanced-reports.png
-       ├── detailed-history.png
-       ├── ai-prediction.png
-       └── ai-prediction-locked.png
-   ```
+```
+WareVista_Analysis_Dashboard/
+├── WareVista_Analytics.pbix
+├── README.md
+├── main-dashboard.png
+├── purchase-analytics.png
+├── sales-analytics.png
+├── history-activity.png
+├── live-stock.png
+├── advanced-reports.png
+├── detailed-history.png
+├── ai-prediction.png
+└── ai-prediction-locked.png
+```
 
-2. **Commit and push:**
-   ```bash
-   git add screenshots/
-   git commit -m "Add dashboard screenshots"
-   git push
-   ```
-   Once pushed, the image table in the **Screenshots** section above
-   renders automatically on the GitHub repo page — no further README
-   changes needed.
+If you'd rather tidy these into a `screenshots/` subfolder later,
+move the 9 files there and add a `screenshots/` prefix back onto each
+`![...](...)` path in the Screenshots section above — otherwise leave
+them at root and the paths above already match.
 
 ### Updating screenshots later (new data, new pages, etc.)
 
@@ -196,19 +187,25 @@ this README — place them in the repo like this:
    full page cleanly, vector charts included) or
    [ImageMagick](https://imagemagick.org/):
    ```bash
-   pdftoppm -png -r 150 WareVista_Analytics.pdf screenshots/page
-   # or: magick -density 150 WareVista_Analytics.pdf screenshots/page-%d.png
+   pdftoppm -png -r 150 WareVista_Analytics.pdf page
+   # or: magick -density 150 WareVista_Analytics.pdf page-%d.png
    ```
 3. Rename each `page-N.png` to match the table in the **Screenshots**
    section (page 1 → `main-dashboard.png`, page 2 →
-   `purchase-analytics.png`, etc.), overwriting the old files.
-4. Commit and push as in step 2 above.
+   `purchase-analytics.png`, etc.), overwriting the old files at the
+   repo root.
+4. Commit and push:
+   ```bash
+   git add *.png
+   git commit -m "Update dashboard screenshots"
+   git push
+   ```
 
-If you add/remove/reorder report pages, update the
-`![...](screenshots/...)` entries in the Screenshots section to match.
+If you add/remove/reorder report pages, update the `![...](...)`
+entries in the Screenshots section to match.
 
 Tip: keep each PNG under ~1–2 MB (resize/compress if needed) so the
-README loads quickly on GitHub — the provided set is already well
+README loads quickly on GitHub — the current set is already well
 under that at 50–320 KB each.
 
 ## License
